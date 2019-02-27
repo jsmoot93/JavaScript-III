@@ -83,7 +83,7 @@ Humanoid.prototype.greet = function() {
 
 // Test you work by un-commenting these 3 objects and the list of console logs below:
 
-
+/*
   const mage = new Humanoid({
     createdAt: new Date(),
     dimensions: {
@@ -144,10 +144,84 @@ Humanoid.prototype.greet = function() {
   console.log(archer.greet()); // Lilith offers a greeting in Elvish.
   console.log(mage.takeDamage()); // Bruce took damage.
   console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
-
+*/
 
   // Stretch task: 
   // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.  
   // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if
   //   health gets to 0 or drops below 0;
   // * Create two new objects, one a villain and one a hero and fight it out with methods!
+
+//Hero---------------------------------------------------------------------------------------------------------------------------
+function Hero(heroAtt) {
+  Humanoid.call(this,heroAtt);
+}
+Hero.prototype = Object.create(Humanoid.prototype);
+
+Hero.prototype.heroDeath = function() {
+  if (this.healthPoints === 0) {
+    return `${this.Name} has died! The Villain will reign unopposed!`
+  }
+}
+
+Hero.prototype.spiritGuardians = function(target) {
+  target.healthPoints = target.healthPoints - 20;
+  return `${this.name} summons the protectors of ${this.team}! They peck away at the eyes of ${target.name}! ${target.name} health is now: ${target.healthPoints}`;
+}
+
+Hero.prototype.holyFire = function damage(target) {
+  target.healthPoints = target.healthPoints - 10;
+  return `${target.healthPoints}`;
+}
+
+
+
+
+
+//Villain-------------------------------------------------------------------------------------------------------------------------
+function Villain(villAtt) {
+  Humanoid.call(this,villAtt);
+}
+Villain.prototype = Object.create(Humanoid.prototype);
+
+Villain.prototype.villDeath = function() {
+  if (this.healthPoints === 0) {
+    return `${this.Name} has died! The world has been saved!`
+  }
+}
+
+//Characters-----------------------------------------------------------------------------------------------------------------------
+const Cleric = new Hero({
+  createdAt: new Date(),
+  dimensions: {
+    length: 2,
+    width: 1,
+    height: 1,
+  },
+  healthPoints: 25,
+  name: 'Tamlin the Black',
+  team: 'The Raven Queen',
+  weapons: [
+    'Favor of the Queen',
+  ],
+  language: 'Common Tongue',
+});
+
+const Orc = new Villain({
+  createdAt: new Date(),
+  dimensions: {
+    length: 2,
+    width: 2,
+    height: 3,
+  },
+  healthPoints: 40,
+  name: 'Nightbringer',
+  team: 'Warchief',
+  weapons: [
+    'Vicious Sickle',
+  ],
+  language: 'Common Tongue',
+});
+
+console.log(Cleric.holyFire(Orc));
+
