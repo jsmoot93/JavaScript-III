@@ -160,21 +160,24 @@ Hero.prototype = Object.create(Humanoid.prototype);
 
 Hero.prototype.heroDeath = function() {
   if (this.healthPoints === 0) {
-    return `${this.Name} has died! The Villain will reign unopposed!`
+    return `${this.name} has died! The Villain will reign unopposed!`
   }
 }
 
-Hero.prototype.spiritGuardians = function(target) {
+Hero.prototype.spiritGuardians = function damage1(target) {
   target.healthPoints = target.healthPoints - 20;
-  return `${this.name} summons the protectors of ${this.team}! They peck away at the eyes of ${target.name}! ${target.name} health is now: ${target.healthPoints}`;
+  return `${this.name} summons the protectors of ${this.team}! They peck away at the eyes of ${target.name}!${target.name} takes 20 points of damage from the assault! Current health is now: ${target.healthPoints}`;
 }
 
-Hero.prototype.holyFire = function damage(target) {
+Hero.prototype.holyFire = function damage2(target) {
   target.healthPoints = target.healthPoints - 10;
-  return `${target.healthPoints}`;
+  return `${this.name} buffets ${target.name} with holy flames! ${target.name} takes 10 points of damage! Current health is now: ${target.healthPoints}`;
 }
 
-
+Hero.prototype.forTheWin = function damage3(target) {
+  target.healthPoints = target.healthPoints - 10;
+  return `${this.name} calls upon: ${this.weapons}! ${this.team} calls down her power to smite ${target.name}! Current health is now: ${target.healthPoints}`;
+}
 
 
 
@@ -186,8 +189,17 @@ Villain.prototype = Object.create(Humanoid.prototype);
 
 Villain.prototype.villDeath = function() {
   if (this.healthPoints === 0) {
-    return `${this.Name} has died! The world has been saved!`
+    return `${this.name} has died! The world has been saved!`
   }
+}
+
+Villain.prototype.weaponAttack = function damage4(target) {
+  target.healthPoints = target.healthPoints - 10;
+  return `${this.name} rakes ${target.name} with ${this.weapons}! ${target.name} takes 5 points of damage from each! Current health is now: ${target.healthPoints}`;
+}
+
+Villain.prototype.monologue = function(target) {
+  return `${this.name} is confident in his victory and reveals his master plan to ${target.name}!`;
 }
 
 //Characters-----------------------------------------------------------------------------------------------------------------------
@@ -219,9 +231,18 @@ const Orc = new Villain({
   team: 'Warchief',
   weapons: [
     'Vicious Sickle',
+    'Vicious Sickle',
   ],
   language: 'Common Tongue',
 });
 
+
+//The Fight-----------------------------------------------------------------------------------------------
 console.log(Cleric.holyFire(Orc));
+console.log(Orc.weaponAttack(Cleric));
+console.log(Cleric.spiritGuardians(Orc));
+console.log(Orc.weaponAttack(Cleric));
+console.log(Orc.monologue(Cleric));
+console.log(Cleric.forTheWin(Orc));
+console.log(Orc.villDeath());
 
